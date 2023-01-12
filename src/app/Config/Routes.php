@@ -22,7 +22,7 @@ $routes->set404Override();
 // $routes->setAutoRoute(false);
 
 /*
- * --------------------------------------------------------------------
+ * -------------------------codeigniter migration  to sql file-------------------------------------------
  * Route Definitions
  * --------------------------------------------------------------------
  */
@@ -44,6 +44,9 @@ $routes->get('/', 'Home::index');
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
+if (is_file(APPPATH . '/Routes.php')) {
+    require APPPATH . '/Routes.php';
+}
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }
