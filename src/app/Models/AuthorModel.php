@@ -11,10 +11,10 @@ class AuthorModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
-    protected $returnType       = 'App\Entity\Author';
+    protected $returnType       = 'App\Entities\Author';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'last_name', 'registration_date', 'country'];
+    protected $allowedFields    = ['name', 'last_name', 'country_id'];
 
     // Dates
     protected $useTimestamps = false;
@@ -24,8 +24,28 @@ class AuthorModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
+    protected $validationRules = [
+        'name'       => 'required|max_length[50]',
+        'last_name'  => 'required|max_length[50]',
+        'country_id' => 'required|numeric',
+
+    ];
+    protected $validationMessages = [
+        'name'       => [
+            'required' => 'Este campo es obligatorio.',
+            'max_length'            => 'Numero maximo de caracteres exedido.',
+            ],
+        'last_name'  => [
+            'required' => 'Este campo es obligatorio.',
+            'max_length'            => 'Numero maximo de caracteres exedido.',
+            ],
+        'country_id' => [
+            'required' => 'Este campo es obligatorio.',
+            'numeric' => 'Este campo debe ser un valor numerico.',
+           
+           ],
+
+    ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
