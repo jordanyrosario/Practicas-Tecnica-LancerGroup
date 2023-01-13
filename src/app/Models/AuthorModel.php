@@ -14,10 +14,10 @@ class AuthorModel extends Model
     protected $returnType       = 'App\Entities\Author';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'last_name', 'country_id'];
+    protected $allowedFields    = ['name', 'last_name', 'country_id', 'created_at', 'updated_at'];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -59,4 +59,18 @@ class AuthorModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    public function findAll(int $limit = 0, int $offset = 0)
+    {
+        $result =  $this->select('authors.id, authors.name, authors.last_name, c.name as country')->join('countries c', 'authors.country_id = c.id', 'left' )->limit($limit, $offset)->get()->getResult();
+
+            return $result;
+    }
+    public function getAuhtorWithDetails(int $id)
+    {
+        $result =  $this->select('authors.*, c.name as country')->join('countries c', 'authors.country_id = c.id', 'left' )->where('authors.id', $id)->first();
+
+            return $result;
+    }
 }
