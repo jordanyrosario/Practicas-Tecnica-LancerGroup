@@ -3,7 +3,7 @@
 <?= $this->section('styles') ?>
 <link rel="stylesheet" href="/css/bootstrap-select/bootstrap-select.min.css">
 <link rel="stylesheet" href="/css/form.default.css">
- 
+
 <?= $this->endSection('styles') ?>
 
 
@@ -24,7 +24,7 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="name">Nombre</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Nombre" value="<?= old('name') ? old('name'): $record->name  ?>">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Nombre" value="<?= old('name') ?: $record->name  ?>">
                     <?php if(isset($errors, $errors['name'])) :?>
                         <p class="tex-dange" > <?= $errors['name'] ?> </p>
                       <?php endif?>
@@ -32,7 +32,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Apellidos</label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Apellidos" value="<?= old('last_name')? old('last_name') : $record->last_name ?>">
+                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Apellidos" value="<?= old('last_name') ?: $record->last_name ?>">
                     <?php if(isset($errors, $errors['last_name'])) :?>
                         <p class="tex-dange" > <?= $errors['last_name'] ?> </p>
                       <?php endif?>
@@ -40,11 +40,12 @@
                   <div class="form-group">
                     <label for="country_id">Pais</label>
                     <select class="selectpicker form-control " name="country_id" id="country_id" data-style="btn form-control" data-live-search="true">
-                    <?php 
-                    $selected = old('country_id')? old('country_id'): $record->country_id;
-                    foreach ($countries as $country): ?>
+                    <?php
+                    $selected = old('country_id') ?: $record->country_id;
 
-                          <option value="<?=$country->id ?>" <?=$country->id == $selected ? 'selected': '' ?> > <?=$country->name ?></option>
+foreach ($countries as $country): ?>
+
+                          <option value="<?=$country->id ?>" <?=$country->id === $selected ? 'selected' : '' ?> > <?=$country->name ?></option>
                         <?php endforeach ?>
 
                         </select>

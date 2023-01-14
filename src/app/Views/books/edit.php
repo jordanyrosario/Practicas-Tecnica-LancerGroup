@@ -14,39 +14,50 @@
         <div class="card">
               <div class="card-header row">
 
-              <h3>Crear Nuevo autor</h3>
+              <h3>Editar autor</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              <form id="author_form" method="post" action="<?= route_to('authors.store')?>">
+              <form id="book_form" method="post" action="<?= route_to('books.update')?>">
+              <input type="hidden" name="id" value="<?=$record->id?>">
               <?= csrf_field() ?>
                 <div class="card-body">
                   <div class="form-group">
                     <label for="name">Nombre</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Nombre" value="<?= old('name') ?>">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Nombre" value="<?= old('name') ?: $record->name  ?>">
                     <?php if(isset($errors, $errors['name'])) :?>
                         <p class="tex-dange" > <?= $errors['name'] ?> </p>
                       <?php endif?>
 
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Apellidos</label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Apellidos" value="<?= old('last_name') ?>">
-                    <?php if(isset($errors, $errors['last_name'])) :?>
-                        <p class="tex-dange" > <?= $errors['last_name'] ?> </p>
+                    <label for="edition">Edicion</label>
+                    <input type="text" class="form-control" id="edition" name="edition" placeholder="Edicion" value="<?= old('edition') ?: $record->edition ?>">
+                    <?php if(isset($errors, $errors['edition'])) :?>
+                        <p class="tex-dange" > <?= $errors['edition'] ?> </p>
                       <?php endif?>
                   </div>
                   <div class="form-group">
-                    <label for="country_id">Pais</label>
-                    <select class="selectpicker form-control " name="country_id" id="country_id" data-style="btn form-control" data-live-search="true">
-                    <?php foreach ($countries as $country): ?>
+                    <label for="publication_date">Fecha de publicacion</label>
+                    <input type="date" class="form-control" id="publication_date" name="publication_date" placeholder="Fecha de publicacion" value="<?= old('publication_date') ?: $record->publication_date ?>">
+                    <?php if(isset($errors, $errors['publication_date'])) :?>
+                        <p class="tex-dange" > <?= $errors['publication_date'] ?> </p>
+                      <?php endif?>
+                  </div>
+                  <div class="form-group">
+                    <label for="authors">Autor</label>
+                      <?php
+                      $options = [];
 
-                          <option value="<?=$country->id ?>" > <?=$country->name ?></option>
-                        <?php endforeach ?>
+foreach($authors as $author) {
+    $options[$author->id] = $author->name;
+}
 
-                        </select>
-                        <?php if(isset($errors, $errors['country_id'])) :?>
-                        <p class="tex-dange" > <?= $errors['country_id'] ?> </p>
+?>
+
+                    <?= form_multiselect('authors[]', $options, old('authors') ?: $authorsSelected, 'class="selectpicker form-control "  data-style="btn form-control" data-live-search="true"')   ?>
+                        <?php if(isset($errors, $errors['authors[]'])) :?>
+                        <p class="tex-dange" > <?= $errors['author[]'] ?> </p>
                       <?php endif?>
                   </div>
 
@@ -54,7 +65,7 @@
 
                 <div class="card-footer d-flex flex-row-reverse ">
                   <button type="submit" class="btn btn-primary ">Guardar</button>
-                  <a href="<?= route_to('authors.index') ?>" class="btn btn-secondary mr-2">Cancelar</a>
+                  <a href="<?= route_to('books.index') ?>" class="btn btn-secondary mr-2">Cancelar</a>
                 </div>
               </form>
               </div>
@@ -79,7 +90,7 @@ $(function () {
   //     alert( "Form successful submitted!" );
   //   }
   // });
-  $('#author_form').validate({
+  $('#book_form').validate({
     rules: {
       name: {
         required: true,

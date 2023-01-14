@@ -32,18 +32,18 @@ class AuthorModel extends Model
     ];
     protected $validationMessages = [
         'name'       => [
-            'required' => 'Este campo es obligatorio.',
-            'max_length'            => 'Numero maximo de caracteres exedido.',
-            ],
+            'required'   => 'Este campo es obligatorio.',
+            'max_length' => 'Numero maximo de caracteres exedido.',
+        ],
         'last_name'  => [
-            'required' => 'Este campo es obligatorio.',
-            'max_length'            => 'Numero maximo de caracteres exedido.',
-            ],
+            'required'   => 'Este campo es obligatorio.',
+            'max_length' => 'Numero maximo de caracteres exedido.',
+        ],
         'country_id' => [
             'required' => 'Este campo es obligatorio.',
-            'numeric' => 'Este campo debe ser un valor numerico.',
-           
-           ],
+            'numeric'  => 'Este campo debe ser un valor numerico.',
+
+        ],
 
     ];
     protected $skipValidation       = false;
@@ -60,17 +60,18 @@ class AuthorModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-
     public function findAll(int $limit = 0, int $offset = 0)
     {
-        $result =  $this->select('authors.id, authors.name, authors.last_name, c.name as country')->join('countries c', 'authors.country_id = c.id', 'left' )->limit($limit, $offset)->get()->getResult();
-
-            return $result;
+        return $this->select('authors.id, authors.name, authors.last_name, c.name as country')->join('countries c', 'authors.country_id = c.id', 'left')->limit($limit, $offset)->get()->getResult();
     }
+
     public function getAuhtorWithDetails(int $id)
     {
-        $result =  $this->select('authors.*, c.name as country')->join('countries c', 'authors.country_id = c.id', 'left' )->where('authors.id', $id)->first();
+        $author        = $this->select('authors.*, c.name as country')->join('countries c', 'authors.country_id = c.id', 'left')->where('authors.id', $id)->first();
+        $builder       = $this->builder('books_authors_relationships br');
+        $books         = $builder->where('author_id', $id)->countAllResults();
+        $author->books = $books;
 
-            return $result;
+        return $author;
     }
 }

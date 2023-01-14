@@ -10,49 +10,56 @@ use CodeIgniter\API\ResponseTrait;
 class AuthorController extends BaseController
 {
     use ResponseTrait;
+
     public function index()
     {
-       
         return view('authors/index');
     }
 
     public function getAuthors()
     {
-
         $authorsModel = model(AuthorModel::class);
 
+        $data        = $this->request->getPost();
+        $search      = $data['search']['value'];
+        $start       = $data['start'];
+        $end         = $data['length'];
+        $results     = $authorsModel->like('authors.name', $search)->orLike('authors.last_name', $search)->findAll($start, $end);
+        $resutlCount = $authorsModel->like('authors.name', $search)->orLike('authors.last_name', $search)->countAllResults();
+        $recordCount = $authorsModel->countAllResults();
+
         $data = [
-            'data' => $authorsModel->paginate(10),  
-            'draw' => 1,
-            'token' =>  csrf_hash(),
-            'recordsTotal' => $authorsModel->pager->getTotal(),
-            'recordsFiltered'=> $authorsModel->pager->getTotal()
+            'data'            => $results,
+            'draw'            => $data['draw'],
+            'token'           => csrf_hash(),
+            'recordsTotal'    => $recordCount,
+            'recordsFiltered' => $resutlCount,
 
         ];
 
         return $this->respond($data, 200);
     }
+
     public function getAuthor($id)
     {
         $authorsModel = model(AuthorModel::class);
 
         $record = $authorsModel->getAuhtorWithDetails($id);
-        if(empty($record))
+        if (empty($record)) {
             return $this->failNotFound();
-
-            $record->created_at = $record->created_at->humanize();
+        }
 
         return $this->respond(
-                [
-                    'Nombre' => $record->name,
-                    'Apellidos' => $record->last_name,
-                    'Pais' => $record->country,
-                    'Fecha de registro' => $record->created_at?  $record->created_at->humanize(): "",
+            [
+                'Nombre'            => $record->name,
+                'Apellidos'         => $record->last_name,
+                'Pais'              => $record->country,
+                'Fecha de registro' => $record->created_at ? $record->created_at->humanize() : '',
+                'Libros'            => $record->books,
 
-
-                ]
-
-            , 200);
+            ],
+            200
+        );
     }
 
     public function create()
@@ -76,6 +83,7 @@ class AuthorController extends BaseController
 
         return $this->response->redirect(route_to('authors.index'));
     }
+
     public function update()
     {
         $authorsModel = model(AuthorModel::class);
@@ -96,11 +104,12 @@ class AuthorController extends BaseController
 
         return $this->response->redirect(route_to('authors.index'));
     }
+
     public function edit($id)
     {
         $authorsModel = model(AuthorModel::class);
-       
-        $record = $authorsModel->find($id);
+
+        $record       = $authorsModel->find($id);
         $countryModel = model(CountryModel::class);
         if (empty($record)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Autor no encontrado');
@@ -111,19 +120,19 @@ class AuthorController extends BaseController
         return view('authors/edit', compact('countries', 'record'));
     }
 
-
     public function delete($id)
     {
         $authorsModel = model(AuthorModel::class);
 
         $record = $authorsModel->find($id);
-        if(empty($record))
+        if (empty($record)) {
             return $this->failNotFound();
+        }
 
-          if ($authorsModel->delete($record->id) == false)
-           return $this->failServerError();
+        if ($authorsModel->delete($record->id) === false) {
+            return $this->failServerError();
+        }
 
-        return $this->respondDeleted([ 'token' => csrf_hash(),], 'Eliminado correctamente');
-
+        return $this->respondDeleted(['token' => csrf_hash()], 'Eliminado correctamente');
     }
 }

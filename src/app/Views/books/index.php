@@ -10,7 +10,7 @@
 <?= $this->endSection('styles') ?>
 <?= $this->section('content') ?>
 
-<div class="modal fade" id="modal-author-details">
+<div class="modal fade" id="modal-book-details">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -44,13 +44,13 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="authors" class="table table-bordered table-hover">
+                <table id="books" class="table table-bordered table-hover">
                   <thead>
                   <tr>
 
                     <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Pais</th>
+                    <th>Edicion</th>
+                    <th>Fecha de publicacion</th>
 
 
 
@@ -100,7 +100,7 @@ $(document).ready(function () {
     serverSide: true,
     rowId: 'id',
     ajax: {
-        url: "<?= route_to('authors.ajax') ?> ",
+        url: "<?= route_to('books.ajax') ?> ",
         type: 'POST',
       dataFilter: function(response, res){
 
@@ -116,8 +116,8 @@ $(document).ready(function () {
     },
 columns:[
     { data: 'name'},
-    { data: 'last_name'},
-    { data: 'country'},
+    { data: 'edition'},
+    { data: 'publication_date'},
 
   ],
   select: true,
@@ -139,7 +139,7 @@ columns:[
                 text: '<i class="fa fa-plus"></i>',
                 className: 'btn-primary',
                 action: function ( e, dt, node, config ) {
-                     window.location.href = "<?= route_to('authors.create')?>"
+                     window.location.href = "<?= route_to('books.create')?>"
                 }
             },
             {
@@ -155,7 +155,7 @@ columns:[
                         return ;
                       }
 
-                      window.location.href = "/authors/edit/" + dt.rows( { selected: true } ).data()[0].id
+                      window.location.href = "/books/edit/" + dt.rows( { selected: true } ).data()[0].id
                 }
 
             },
@@ -166,7 +166,7 @@ columns:[
 
 
                 $.ajax({
-                  url: "/authors/delete/" + dt.rows( { selected: true } ).data()[0].id,
+                  url: "/books/delete/" + dt.rows( { selected: true } ).data()[0].id,
                   method: 'POST',
                    headers: {
                           'X-Requested-With': 'XMLHttpRequest'
@@ -185,7 +185,7 @@ columns:[
                   $('meta[name=X-CSRF-TOKEN]').attr("content", data.token);
 
                   table.destroy();
-                  table = $('#authors').DataTable(dataTableConfig);
+                  table = $('#books').DataTable(dataTableConfig);
 
                     }).fail(function(err){
                     console.log(err);
@@ -199,11 +199,11 @@ columns:[
 
 
 
-let table =   $('#authors').DataTable(
+let table =   $('#books').DataTable(
   dataTableConfig
 );
 
-$('#authors').on('preXhr.dt', function ( e, settings, data ) {
+$('#books').on('preXhr.dt', function ( e, settings, data ) {
           settings.ajax.headers['X-CSRF-TOKEN'] =  $('meta[name=X-CSRF-TOKEN]').attr("content")
     } )
 
@@ -215,11 +215,11 @@ table.on('dblclick', 'tr', function(e){
 
     const id = table.row( this ).id()
 
-    $.get('/authors/details/'+ id, function(data){
+    $.get('books/details/'+ id, function(data){
 
     let details = '';
 
-for (const key in data) {
+    for (const key in data) {
        details += `
       <tr>
         <td>${key}:</td>
@@ -229,8 +229,8 @@ for (const key in data) {
       `;
 }
 
-    $('#modal-author-details table').html(details)
-    $('#modal-author-details').modal('show')
+    $('#modal-book-details table').html(details)
+    $('#modal-book-details').modal('show')
 
 
     }, 'json').fail(function(err){
