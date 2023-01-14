@@ -13,7 +13,9 @@ class BookController extends BaseController
 
     public function index()
     {
-        return view('books/index');
+
+        $title = "Libros";
+        return view('books/index', compact('title'));
     }
 
     public function getBooks()

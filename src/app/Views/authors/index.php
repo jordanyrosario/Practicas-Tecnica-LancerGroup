@@ -58,9 +58,8 @@
                   </thead>
                   <tbody>
                   <tr>
-                    <td>Juan</td>
-                    <td>Domingo  </td>
-                    <td>Cuba</td>
+                    <td colspan="3">No hay registros para mostrar</td>
+                    
 
 
                   </tr>

@@ -32,6 +32,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <li class="nav-item d-none d-sm-inline-block">
         <a href="<?= route_to('authors.index') ?>" class="nav-link">Autores</a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="<?= route_to('books.index') ?>" class="nav-link">Libros</a>
+      </li>
 
     </ul>
 
@@ -113,12 +116,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0"><?= $tittle ?? '' ?> </h1>
+            <h1 class="m-0"><?= $title ?? '' ?> </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="<?= route_to('authors.index') ?> ">Home</a></li>
-              <li class="breadcrumb-item active">Starter Page</li>
+              <li class="breadcrumb-item"><a href="<?= route_to('books.index') ?> ">Home</a></li>
+              <li class="breadcrumb-item active"><?= $title ?? ""?> </li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->

@@ -13,7 +13,8 @@ class AuthorController extends BaseController
 
     public function index()
     {
-        return view('authors/index');
+        $title = "Autores";
+        return view('authors/index', compact('title'));
     }
 
     public function getAuthors()
