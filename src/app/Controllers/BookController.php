@@ -13,8 +13,8 @@ class BookController extends BaseController
 
     public function index()
     {
+        $title = 'Libros';
 
-        $title = "Libros";
         return view('books/index', compact('title'));
     }
 

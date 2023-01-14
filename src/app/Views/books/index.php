@@ -59,7 +59,7 @@
                   <tbody>
                   <tr>
                     <td colspan="3">NO hay registros para mostrar</td>
-                    
+
 
 
                   </tr>
