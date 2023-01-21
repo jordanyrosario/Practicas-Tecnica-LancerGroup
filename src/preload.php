@@ -76,7 +76,7 @@ class preload
         $this->loadAutoloader();
     }
 
-    private function loadAutoloader()
+    private function loadAutoloader(): void
     {
         $paths = new Config\Paths();
         require rtrim($paths->systemDirectory, '\\/ ') . DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -85,7 +85,7 @@ class preload
     /**
      * Load PHP files.
      */
-    public function load()
+    public function load(): void
     {
         foreach ($this->paths as $path) {
             $directory = new RecursiveDirectoryIterator($path['include']);

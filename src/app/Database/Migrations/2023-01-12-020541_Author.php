@@ -6,6 +6,9 @@ use CodeIgniter\Database\Migration;
 
 class Author extends Migration
 {
+    /**
+     * @return void
+     */
     public function up()
     {
         $this->forge->addField([
@@ -40,6 +43,9 @@ class Author extends Migration
         $this->forge->createTable('authors');
     }
 
+    /**
+     * @return void
+     */
     public function down()
     {
         $this->forge->dropTable('authors');

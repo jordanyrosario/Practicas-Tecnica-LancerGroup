@@ -11,14 +11,14 @@ class BookController extends BaseController
 {
     use ResponseTrait;
 
-    public function index()
+    public function index(): string
     {
         $title = 'Libros';
 
         return view('books/index', compact('title'));
     }
 
-    public function getBooks()
+    public function getBooks(): \CodeIgniter\HTTP\ResponseInterface
     {
         $booksModel = model(BooksModel::class);
 
@@ -42,7 +42,7 @@ class BookController extends BaseController
         return $this->respond($data, 200);
     }
 
-    public function getBook($id)
+    public function getBook($id): \CodeIgniter\HTTP\ResponseInterface
     {
         $booksModel = model(BooksModel::class);
 
@@ -65,7 +65,7 @@ class BookController extends BaseController
         );
     }
 
-    public function create()
+    public function create(): string
     {
         $authorModel = model(AuthorModel::class);
         helper('form');
@@ -74,7 +74,7 @@ class BookController extends BaseController
         return view('books/create', compact('authors'));
     }
 
-    public function store()
+    public function store(): \CodeIgniter\HTTP\ResponseInterface
     {
         $bookModel = model(BooksModel::class);
         $data      = $this->request->getPost();
@@ -125,7 +125,7 @@ class BookController extends BaseController
         return $this->response->redirect(route_to('books.index'));
     }
 
-    public function update()
+    public function update(): \CodeIgniter\HTTP\ResponseInterface
     {
         $bookModel = model(BooksModel::class);
         $data      = $this->request->getPost();
@@ -145,7 +145,7 @@ class BookController extends BaseController
         return $this->response->redirect(route_to('books.index'));
     }
 
-    public function edit($id)
+    public function edit($id): string
     {
         $bookModel = model(BooksModel::class);
         helper('form');
@@ -161,7 +161,7 @@ class BookController extends BaseController
         return view('books/edit', compact('authors', 'record', 'authorsSelected'));
     }
 
-    public function delete($id)
+    public function delete($id): \CodeIgniter\HTTP\ResponseInterface
     {
         $bookModel = model(BooksModel::class);
 

@@ -11,14 +11,14 @@ class AuthorController extends BaseController
 {
     use ResponseTrait;
 
-    public function index()
+    public function index(): string
     {
         $title = 'Autores';
 
         return view('authors/index', compact('title'));
     }
 
-    public function getAuthors()
+    public function getAuthors(): \CodeIgniter\HTTP\ResponseInterface
     {
         $authorsModel = model(AuthorModel::class);
 
@@ -42,7 +42,7 @@ class AuthorController extends BaseController
         return $this->respond($data, 200);
     }
 
-    public function getAuthor($id)
+    public function getAuthor($id): \CodeIgniter\HTTP\ResponseInterface
     {
         $authorsModel = model(AuthorModel::class);
 
@@ -64,7 +64,7 @@ class AuthorController extends BaseController
         );
     }
 
-    public function create()
+    public function create(): string
     {
         $countryModel = model(CountryModel::class);
 
@@ -73,7 +73,7 @@ class AuthorController extends BaseController
         return view('authors/create', compact('countries'));
     }
 
-    public function store()
+    public function store(): \CodeIgniter\HTTP\ResponseInterface
     {
         $authorsModel = model(AuthorModel::class);
         $data         = $this->request->getPost();
@@ -86,7 +86,7 @@ class AuthorController extends BaseController
         return $this->response->redirect(route_to('authors.index'));
     }
 
-    public function update()
+    public function update(): \CodeIgniter\HTTP\ResponseInterface
     {
         $authorsModel = model(AuthorModel::class);
         $data         = $this->request->getPost();
@@ -107,7 +107,7 @@ class AuthorController extends BaseController
         return $this->response->redirect(route_to('authors.index'));
     }
 
-    public function edit($id)
+    public function edit($id): string
     {
         $authorsModel = model(AuthorModel::class);
 
@@ -122,7 +122,7 @@ class AuthorController extends BaseController
         return view('authors/edit', compact('countries', 'record'));
     }
 
-    public function delete($id)
+    public function delete($id): \CodeIgniter\HTTP\ResponseInterface
     {
         $authorsModel = model(AuthorModel::class);
 

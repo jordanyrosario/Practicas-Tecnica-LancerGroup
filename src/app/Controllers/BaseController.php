@@ -45,6 +45,8 @@ abstract class BaseController extends Controller
 
     /**
      * Constructor.
+     *
+     * @return void
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {

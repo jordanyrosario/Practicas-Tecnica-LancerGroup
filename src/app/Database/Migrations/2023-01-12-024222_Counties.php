@@ -6,6 +6,9 @@ use CodeIgniter\Database\Migration;
 
 class Counties extends Migration
 {
+    /**
+     * @return void
+     */
     public function up()
     {
         $this->forge->addField([
@@ -24,6 +27,9 @@ class Counties extends Migration
         $this->forge->createTable('countries');
     }
 
+    /**
+     * @return void
+     */
     public function down()
     {
         $this->forge->dropTable('countries');

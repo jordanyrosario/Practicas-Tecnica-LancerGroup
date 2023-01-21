@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use CodeIgniter\Entity;
 use CodeIgniter\Model;
 
 class AuthorModel extends Model
@@ -65,6 +66,9 @@ class AuthorModel extends Model
         return $this->select('authors.id, authors.name, authors.last_name, c.name as country')->join('countries c', 'authors.country_id = c.id', 'left')->limit($limit, $offset)->get()->getResult();
     }
 
+    /**
+     * @return array|null|Entity
+     */
     public function getAuhtorWithDetails(int $id)
     {
         $author        = $this->select('authors.*, c.name as country')->join('countries c', 'authors.country_id = c.id', 'left')->where('authors.id', $id)->first();

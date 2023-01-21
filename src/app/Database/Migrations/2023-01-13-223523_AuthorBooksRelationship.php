@@ -6,6 +6,9 @@ use CodeIgniter\Database\Migration;
 
 class AuthorBooksRelationship extends Migration
 {
+    /**
+     * @return void
+     */
     public function up()
     {
         $this->forge->addField([
@@ -31,6 +34,9 @@ class AuthorBooksRelationship extends Migration
         $this->forge->addForeignKey('author_id', 'authors', 'id');
     }
 
+    /**
+     * @return void
+     */
     public function down()
     {
         $this->forge->dropTable('books_authors_relationships');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use CodeIgniter\Entity;
 use CodeIgniter\Model;
 
 class BooksModel extends Model
@@ -95,6 +96,9 @@ class BooksModel extends Model
         return [];
     }
 
+    /**
+     * @return array|null|Entity
+     */
     public function getBookWithDetails(int $id)
     {
         $book = $this->find($id);

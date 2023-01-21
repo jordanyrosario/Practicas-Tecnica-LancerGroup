@@ -6,6 +6,9 @@ use CodeIgniter\Database\Migration;
 
 class AuthorCountryRelationship extends Migration
 {
+    /**
+     * @return void
+     */
     public function up()
     {
         $this->forge->addColumn('authors', [
@@ -18,6 +21,9 @@ class AuthorCountryRelationship extends Migration
         $this->forge->addForeignKey('country_id', 'countries', 'id');
     }
 
+    /**
+     * @return void
+     */
     public function down()
     {
         $this->forge->dropForeignKey('authors', 'country_id');
